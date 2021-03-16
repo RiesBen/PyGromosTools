@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, copy
 import warnings
 import traceback
 from typing import List
@@ -146,6 +146,7 @@ def simulation(in_gromos_system:Gromos_System, project_dir:str,
             bash.make_folder(out_input_dir)
 
             ##Prepare gromos system:
+            in_gromos_system = copy.deepcopy(in_gromos_system)  #don't mutate outer systems
             in_gromos_system.work_folder = out_input_dir
             in_gromos_system.name = step_name
             if(not in_imd_path is None and in_gromos_system.imd.path is None):
@@ -239,5 +240,6 @@ def simulation(in_gromos_system:Gromos_System, project_dir:str,
         in_gromos_system.cnf._future_file = True
         in_gromos_system.cnf.path = out_analysis_dir + "/data/" + in_gromos_system.name + ".cnf"
 
+    in_gromos_system.work_folder = step_dir
     return in_gromos_system, last_jobID
 

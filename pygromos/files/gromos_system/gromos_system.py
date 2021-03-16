@@ -246,7 +246,7 @@ class Gromos_System():
         for key in attribute_dict.keys():
             if (not isinstance(attribute_dict[key], Callable) and not key in skip):
                 new_dict.update({key:attribute_dict[key]})
-            elif(key in skip):
+            elif(not attribute_dict[key] is None and key in skip):
                 new_dict.update({key: attribute_dict[key]._asdict()})
 
         return new_dict
