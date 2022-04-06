@@ -5,10 +5,12 @@ on:
     branches:
       - "main"
       - "PyGromosTools_V1"
+      - "release3"
   pull_request:
     branches:
       - "main"
       - "PyGromosTools_V1"
+      - "release3"
   schedule:
     # Nightly tests run on master by default:
     #   Scheduled workflows run on the latest commit on the default or base branch.
@@ -22,7 +24,7 @@ jobs:
     strategy:
       matrix:
         os: [macOS-latest, ubuntu-latest] #, windows-latest
-        python-version: [3.7] #
+        python-version: [3.7, 3.9.4] #
 
     steps:
     - uses: actions/checkout@v1
@@ -35,13 +37,13 @@ jobs:
         ulimit -a
 
 
-    - uses: conda-incubator/setup-miniconda@v2
+    - uses: mamba-org/provision-with-micromamba@main
       with:
         python-version: ${{ matrix.python-version }}
         environment-file:  dev/conda_envs/test_env.yaml
         channels: conda-forge,defaults
-        
-        activate-environment: test
+
+        activate-environment: pygromosTest
         auto-update-conda: true
         auto-activate-base: false
         show-channel-urls: true
@@ -61,12 +63,11 @@ jobs:
       shell: bash -l {0}
 
       run: |
-        pytest -v --color=yes pygromos/tests/ #--cov=pygromos --cov-report=xml 
-        
+        pytest -v --color=yes pygromos/tests/ --cov=pygromos --cov-report=xml
+
     - name: CodeCov
       uses: codecov/codecov-action@v1
       with:
         file: ./coverage.xml
         flags: unittests
         name: codecov-${{ matrix.os }}-py${{ matrix.python-version }}
-    

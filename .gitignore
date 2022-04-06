@@ -71,6 +71,9 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# Playground script
+script.py
+
 # pyenv
 .python-version
 
@@ -91,6 +94,10 @@ ENV/
 # Spyder project settings
 .spyderproject
 .spyproject
+
+# Visual Studio Code settings
+.vscode
+.code-workspace
 
 # Rope project settings
 .ropeproject
@@ -114,3 +121,10 @@ ENV/
 #test output
 pygromos/tests/out_testresults/*
 pygromos/tests/in_testfiles/**out*
+
+#bin
+pygromos/gromos/bin
+
+##tutorial products
+examples/example_files
+examples/dev

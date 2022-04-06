@@ -1,0 +1,1023 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SD Simulations with Submission System &mdash; PyGromosTools  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Gromos Trajectory Examples" href="dev_example_gromos_trajectories.html" />
+    <link rel="prev" title="PyGromos File Examples" href="dev_example_gromos_files.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> PyGromosTools
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Welcome to PyGromosTools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../example_TI_gromos_simulation.html">TI Calculation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example_amber2gromos.html">Amber2Gromos Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example_gromos_on_HPC_Clusters.html">Usage of PyGromosTools on HPC-cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example_gromos_qmmm.html">QM/MM in Gromos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example_hvap.html">Calculation of free energy of evaporization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example_openff.html">OpenFF Automatic Parametrization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example_solvation_free_energy.html">Calculation of Self Solvation Free Energy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Developer Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dev_example_PyGromosPP.html">Implemented pyGromosPP programs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev_example_gromos_files.html">PyGromos File Examples</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SD Simulations with Submission System</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Imports">Imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Input-files">Input files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RUN-Emin">RUN Emin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RUN-SD-Simulation">RUN SD Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Further-Analysis:">Further Analysis:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dev_example_gromos_trajectories.html">Gromos Trajectory Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev_example_gromos_tutorial_on_low_level.html">Gromos Tutorial Pipeline - on a low level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev_example_submission_systems.html">Submission Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev_example_topology_creation.html">Creating and modifying Topologies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../_source/modules.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../styleguide.html">Style Guide for PyGromosTools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyGromosTools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Examples</a> &raquo;</li>
+        
+          <li><a href="index.html">Developer Examples</a> &raquo;</li>
+        
+      <li>SD Simulations with Submission System</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Examples/developer_examples/dev_example_gromos_simulation.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="SD-Simulations-with-Submission-System">
+<h1>SD Simulations with Submission System<a class="headerlink" href="#SD-Simulations-with-Submission-System" title="Permalink to this headline">¶</a></h1>
+<section id="Imports">
+<h2>Imports<a class="headerlink" href="#Imports" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="c1">#for analysis</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">from</span> <span class="nn">pygromos.files.gromos_system</span> <span class="kn">import</span> <span class="n">Gromos_System</span>
+<span class="kn">from</span> <span class="nn">pygromos.files.blocks</span> <span class="kn">import</span> <span class="n">imd_blocks</span>
+<span class="kn">from</span> <span class="nn">pygromos.data.simulation_parameters_templates</span> <span class="kn">import</span> <span class="n">template_emin</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "e2d5c87dc2924692bb50316202592330"}</script></div>
+</div>
+</section>
+<section id="Input-files">
+<h2>Input files<a class="headerlink" href="#Input-files" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root_dir</span> <span class="o">=</span> <span class="n">project_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;../example_files/SD_Simulation/&quot;</span><span class="p">)</span>
+<span class="n">root_in_dir</span> <span class="o">=</span> <span class="n">root_dir</span><span class="o">+</span><span class="s2">&quot;/SD_input&quot;</span>
+<span class="n">cnf_path</span> <span class="o">=</span> <span class="n">root_in_dir</span><span class="o">+</span><span class="s2">&quot;/6J29_unitedatom_optimised_geometry.cnf&quot;</span>
+<span class="n">top_path</span> <span class="o">=</span> <span class="n">root_in_dir</span> <span class="o">+</span> <span class="s2">&quot;/6J29.top&quot;</span>
+<span class="n">sys_name</span> <span class="o">=</span> <span class="s2">&quot;6J29&quot;</span>
+
+<span class="c1">#External imd_changes:</span>
+<span class="n">grom_system</span> <span class="o">=</span> <span class="n">Gromos_System</span><span class="p">(</span><span class="n">in_cnf_path</span><span class="o">=</span><span class="n">cnf_path</span><span class="p">,</span> <span class="n">in_top_path</span><span class="o">=</span><span class="n">top_path</span><span class="p">,</span> <span class="n">in_imd_path</span><span class="o">=</span><span class="n">template_emin</span><span class="p">,</span>
+                            <span class="n">system_name</span><span class="o">=</span><span class="n">sys_name</span><span class="p">,</span> <span class="n">work_folder</span><span class="o">=</span><span class="n">root_in_dir</span><span class="p">)</span>
+
+<span class="n">grom_system</span><span class="o">.</span><span class="n">cnf</span><span class="o">.</span><span class="n">add_empty_box</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="RUN-Emin">
+<h2>RUN Emin<a class="headerlink" href="#RUN-Emin" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pygromos.simulations.hpc_queuing.submission_systems.local</span> <span class="kn">import</span> <span class="n">LOCAL</span> <span class="k">as</span> <span class="n">subSystem</span>
+<span class="kn">from</span> <span class="nn">pygromos.simulations.modules.preset_simulation_modules</span> <span class="kn">import</span> <span class="n">emin</span>
+<span class="n">step_name</span>  <span class="o">=</span> <span class="s2">&quot;a_vacuum_emin&quot;</span>
+
+<span class="c1">#Some special adaptation</span>
+<span class="n">grom_system</span><span class="o">.</span><span class="n">imd</span><span class="o">.</span><span class="n">BOUNDCOND</span><span class="o">.</span><span class="n">NTB</span> <span class="o">=</span><span class="mi">0</span>
+<span class="n">grom_system</span><span class="o">.</span><span class="n">imd</span><span class="o">.</span><span class="n">BOUNDCOND</span><span class="o">.</span><span class="n">NDFMIN</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">grom_system</span><span class="o">.</span><span class="n">imd</span><span class="o">.</span><span class="n">WRITETRAJ</span> <span class="o">=</span> <span class="n">imd_blocks</span><span class="o">.</span><span class="n">WRITETRAJ</span><span class="p">()</span>
+<span class="n">grom_system</span><span class="o">.</span><span class="n">imd</span><span class="o">.</span><span class="n">WRITETRAJ</span><span class="o">.</span><span class="n">NTWX</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">grom_system</span><span class="o">.</span><span class="n">imd</span><span class="o">.</span><span class="n">WRITETRAJ</span><span class="o">.</span><span class="n">NTWE</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">grom_system</span><span class="o">.</span><span class="n">prepare_for_simulation</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">grom_system</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">root_dir</span><span class="o">+</span><span class="s2">&quot;/test.obj&quot;</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;/home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/test.obj&#39;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grom_system</span> <span class="o">=</span> <span class="n">Gromos_System</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">root_dir</span><span class="o">+</span><span class="s2">&quot;/test.obj&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grom_system</span><span class="o">.</span><span class="n">solute_info</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;names&#39;: [&#39;6J29&#39;], &#39;number&#39;: 1, &#39;positions&#39;: [1], &#39;number_of_atoms&#39;: 27}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grom_system</span><span class="o">.</span><span class="n">cnf</span><span class="o">.</span><span class="n">view</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "9864824eb1644db7ac92cfb8a20be13e"}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pygromos.simulations.modules.preset_simulation_modules</span> <span class="kn">import</span> <span class="n">emin</span>
+
+
+<span class="n">emin_gromos_system</span> <span class="o">=</span> <span class="n">emin</span><span class="p">(</span><span class="n">in_gromos_system</span><span class="o">=</span><span class="n">grom_system</span><span class="p">,</span>
+                                 <span class="n">step_name</span><span class="o">=</span><span class="n">step_name</span><span class="p">,</span>
+                                 <span class="n">submission_system</span><span class="o">=</span><span class="n">subSystem</span><span class="p">(),</span>
+                                 <span class="n">in_imd_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">jobID</span> <span class="o">=</span> <span class="n">emin_gromos_system</span><span class="o">.</span><span class="n">_last_jobID</span>
+<span class="n">emin_gromos_system</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+################################################################################
+
+a_vacuum_emin
+################################################################################
+
+============================================================
+FOUND RESULT: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input/a_vacuum_emin/analysis/data/a_vacuum_emin.cnf
+ GOING TO SKIPT THIS SUBMISSION!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+GROMOS SYSTEM: a_vacuum_emin
+################################################################################
+WORKDIR: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input
+LAST CHECKPOINT: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/test.obj
+
+GromosXX_bin: None
+GromosPP_bin: None
+FILES:
+        imd: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input/a_vacuum_emin/input/a_vacuum_emin.imd
+        top: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input/a_vacuum_emin/input/a_vacuum_emin.top
+        cnf: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input/a_vacuum_emin/analysis/data/a_vacuum_emin.cnf
+FUTURE PROMISE: False
+SYSTEM:
+        Solute: [&#39;6J29&#39;]  resID: [1]  natoms: 27
+        SOLVENT:        []  nmolecules: 0  natoms: 0
+
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">emin_gromos_system</span><span class="o">.</span><span class="n">cnf</span><span class="o">.</span><span class="n">view</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "b8f90497225244c4942fcda20288d636"}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">emin_gromos_system</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+GROMOS SYSTEM: a_vacuum_emin
+################################################################################
+WORKDIR: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input
+LAST CHECKPOINT: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/test.obj
+
+GromosXX_bin: None
+GromosPP_bin: None
+FILES:
+        imd: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input/a_vacuum_emin/input/a_vacuum_emin.imd
+        top: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input/a_vacuum_emin/input/a_vacuum_emin.top
+        cnf: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input/a_vacuum_emin/analysis/data/a_vacuum_emin.cnf
+FUTURE PROMISE: False
+SYSTEM:
+        Solute: [&#39;6J29&#39;]  resID: [1]  natoms: 27
+        SOLVENT:        []  nmolecules: 0  natoms: 0
+
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">emin_gromos_system</span><span class="o">.</span><span class="n">work_folder</span><span class="o">+</span><span class="s2">&quot;/analysis/data&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;/home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input/analysis/data&#39;
+</pre></div></div>
+</div>
+</section>
+<section id="RUN-SD-Simulation">
+<h2>RUN SD Simulation<a class="headerlink" href="#RUN-SD-Simulation" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pygromos.simulations.modules.preset_simulation_modules</span> <span class="kn">import</span> <span class="n">sd</span>
+
+<span class="n">step_name</span>  <span class="o">=</span> <span class="s2">&quot;b_vacuum_sd&quot;</span>
+
+<span class="n">sd_gromos_system</span>  <span class="o">=</span> <span class="n">sd</span><span class="p">(</span><span class="n">in_gromos_system</span><span class="o">=</span><span class="n">emin_gromos_system</span><span class="p">,</span>
+                              <span class="n">step_name</span><span class="o">=</span><span class="n">step_name</span><span class="p">,</span>
+                       <span class="n">submission_system</span><span class="o">=</span><span class="n">subSystem</span><span class="p">(</span><span class="n">nmpi</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                      <span class="n">equilibration_runs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">simulation_runs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">jobID</span> <span class="o">=</span> <span class="n">sd_gromos_system</span><span class="o">.</span><span class="n">_last_jobID</span>
+
+<span class="n">sd_gromos_system</span>
+
+<span class="n">sd_gromos_system</span><span class="o">.</span><span class="n">cnf</span><span class="o">.</span><span class="n">view</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+################################################################################
+
+b_vacuum_sd
+################################################################################
+
+============================================================
+FOUND RESULT: /home/mlehner/PyGromosTools/docs/sphinx_project/Examples/example_files/SD_Simulation/SD_input/b_vacuum_sd/analysis/data/b_vacuum_sd.cnf
+ GOING TO SKIPT THIS SUBMISSION!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "4ed2fe6508c74d8daa94177fab0fc748"}</script></div>
+</div>
+</section>
+<section id="Further-Analysis:">
+<h2>Further Analysis:<a class="headerlink" href="#Further-Analysis:" title="Permalink to this headline">¶</a></h2>
+<p>Transform the trc into a pdb traj to check it out with pymol :!)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#final analysis dir:</span>
+<span class="kn">from</span> <span class="nn">pygromos.utils</span> <span class="kn">import</span> <span class="n">bash</span>
+
+<span class="n">out_ana</span> <span class="o">=</span> <span class="n">project_dir</span><span class="o">+</span><span class="s2">&quot;/c_ana&quot;</span>
+<span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">out_ana</span><span class="p">)):</span>
+    <span class="n">bash</span><span class="o">.</span><span class="n">make_folder</span><span class="p">(</span><span class="n">out_ana</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Coordinate-Analysis">
+<h3>Coordinate Analysis<a class="headerlink" href="#Coordinate-Analysis" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pygromos.files.trajectory.trc</span> <span class="kn">import</span> <span class="n">Trc</span>
+
+<span class="n">trc</span> <span class="o">=</span> <span class="n">sd_gromos_system</span><span class="o">.</span><span class="n">trc</span>
+<span class="n">trc</span><span class="o">.</span><span class="n">write_pdb</span><span class="p">(</span><span class="n">out_ana</span><span class="o">+</span><span class="s2">&quot;/sd_traj.pdb&quot;</span><span class="p">,</span> <span class="n">cnf_file</span><span class="o">=</span><span class="n">cnf_path</span><span class="p">)</span><span class="c1">#grom_system.cnf.path)</span>
+<span class="n">trc</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NoSuchNodeError</span>                           Traceback (most recent call last)
+<span class="ansi-green-fg">/tmp/ipykernel_3955/2930333405.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">from</span> pygromos<span class="ansi-blue-fg">.</span>files<span class="ansi-blue-fg">.</span>trajectory<span class="ansi-blue-fg">.</span>trc <span class="ansi-green-fg">import</span> Trc
+<span class="ansi-green-intense-fg ansi-bold">      2</span>
+<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg"> </span>trc <span class="ansi-blue-fg">=</span> sd_gromos_system<span class="ansi-blue-fg">.</span>trc
+<span class="ansi-green-intense-fg ansi-bold">      4</span> trc<span class="ansi-blue-fg">.</span>write_pdb<span class="ansi-blue-fg">(</span>out_ana<span class="ansi-blue-fg">+</span><span class="ansi-blue-fg">&#34;/sd_traj.pdb&#34;</span><span class="ansi-blue-fg">,</span> cnf_file<span class="ansi-blue-fg">=</span>cnf_path<span class="ansi-blue-fg">)</span><span class="ansi-red-fg">#grom_system.cnf.path)</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> trc
+
+<span class="ansi-green-fg">~/PyGromosTools/pygromos/files/gromos_system/gromos_system.py</span> in <span class="ansi-cyan-fg">trc</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    657</span>     <span class="ansi-green-fg">def</span> trc<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> Trc<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    658</span>         <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>_trc <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span> <span class="ansi-green-fg">and</span> <span class="ansi-blue-fg">&#34;trc&#34;</span> <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_traj_files_path <span class="ansi-green-fg">and</span> self<span class="ansi-blue-fg">.</span>cnf <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span> <span class="ansi-green-fg">and</span> <span class="ansi-green-fg">not</span> self<span class="ansi-blue-fg">.</span>cnf<span class="ansi-blue-fg">.</span>_future_file<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 659</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>_trc <span class="ansi-blue-fg">=</span> Trc<span class="ansi-blue-fg">(</span>traj_path<span class="ansi-blue-fg">=</span>self<span class="ansi-blue-fg">.</span>_traj_files_path<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#34;trc&#34;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> in_cnf<span class="ansi-blue-fg">=</span>self<span class="ansi-blue-fg">.</span>cnf<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    660</span>         <span class="ansi-green-fg">elif</span> self<span class="ansi-blue-fg">.</span>_trc <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span> <span class="ansi-green-fg">and</span> <span class="ansi-blue-fg">&#34;trc&#34;</span> <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_traj_files_path<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    661</span>             self<span class="ansi-blue-fg">.</span>_trc <span class="ansi-blue-fg">=</span> Trc<span class="ansi-blue-fg">(</span>traj_path<span class="ansi-blue-fg">=</span>self<span class="ansi-blue-fg">.</span>_traj_files_path<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#34;trc&#34;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/PyGromosTools/pygromos/files/trajectory/trc.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, xyz, topology, time, unitcell_lengths, unitcell_angles, traj_path, in_cnf, timestep_duration, _future_file)</span>
+<span class="ansi-green-intense-fg ansi-bold">     55</span>
+<span class="ansi-green-intense-fg ansi-bold">     56</span>         <span class="ansi-green-fg">if</span> traj_path <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span> <span class="ansi-green-fg">and</span> <span class="ansi-blue-fg">(</span>traj_path<span class="ansi-blue-fg">.</span>endswith<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;.h5&#34;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">or</span> traj_path<span class="ansi-blue-fg">.</span>endswith<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;.hf5&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 57</span><span class="ansi-red-fg">             </span>trj <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>load<span class="ansi-blue-fg">(</span>traj_path<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     58</span>             self<span class="ansi-blue-fg">.</span>__dict__<span class="ansi-blue-fg">.</span>update<span class="ansi-blue-fg">(</span>vars<span class="ansi-blue-fg">(</span>trj<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     59</span>
+
+<span class="ansi-green-fg">~/PyGromosTools/pygromos/files/trajectory/trc.py</span> in <span class="ansi-cyan-fg">load</span><span class="ansi-blue-fg">(cls, in_path, in_cnf_path, timestep_duration)</span>
+<span class="ansi-green-intense-fg ansi-bold">    496</span>             o <span class="ansi-blue-fg">=</span> cls<span class="ansi-blue-fg">(</span>traj_path<span class="ansi-blue-fg">=</span>in_path<span class="ansi-blue-fg">,</span> in_cnf_path<span class="ansi-blue-fg">=</span>in_cnf_path<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    497</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 498</span><span class="ansi-red-fg">             </span>so <span class="ansi-blue-fg">=</span> super<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>load<span class="ansi-blue-fg">(</span>in_path<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    499</span>             o = cls(
+<span class="ansi-green-intense-fg ansi-bold">    500</span>                 xyz<span class="ansi-blue-fg">=</span>so<span class="ansi-blue-fg">.</span>xyz<span class="ansi-blue-fg">,</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/mdtraj/core/trajectory.py</span> in <span class="ansi-cyan-fg">load</span><span class="ansi-blue-fg">(filenames, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1323</span>         As requested by the various load functions <span class="ansi-blue-fg">-</span><span class="ansi-blue-fg">-</span> it depends on the extension
+<span class="ansi-green-intense-fg ansi-bold">   1324</span>         &#34;&#34;&#34;
+<span class="ansi-green-fg">-&gt; 1325</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> load<span class="ansi-blue-fg">(</span>filenames<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1326</span>
+<span class="ansi-green-intense-fg ansi-bold">   1327</span>     <span class="ansi-green-fg">def</span> _savers<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/mdtraj/core/trajectory.py</span> in <span class="ansi-cyan-fg">load</span><span class="ansi-blue-fg">(filename_or_filenames, discard_overlapping_frames, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    394</span>     topkwargs<span class="ansi-blue-fg">.</span>pop<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;stride&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    395</span>     topkwargs<span class="ansi-blue-fg">.</span>pop<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;start&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 396</span><span class="ansi-red-fg">     </span>kwargs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#34;top&#34;</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> _parse_topology<span class="ansi-blue-fg">(</span>kwargs<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;top&#34;</span><span class="ansi-blue-fg">,</span> filename_or_filenames<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>topkwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    397</span>
+<span class="ansi-green-intense-fg ansi-bold">    398</span>     <span class="ansi-red-fg">#get the right loader</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/mdtraj/core/trajectory.py</span> in <span class="ansi-cyan-fg">_parse_topology</span><span class="ansi-blue-fg">(top, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    172</span>         topology <span class="ansi-blue-fg">=</span> top<span class="ansi-blue-fg">.</span>topology
+<span class="ansi-green-intense-fg ansi-bold">    173</span>     <span class="ansi-green-fg">elif</span> isinstance<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">(</span>string_types<span class="ansi-blue-fg">,</span> os<span class="ansi-blue-fg">.</span>PathLike<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">and</span> <span class="ansi-blue-fg">(</span>ext <span class="ansi-green-fg">in</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;.pdb&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;.pdb.gz&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;.h5&#39;</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">&#39;.lh5&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 174</span><span class="ansi-red-fg">         </span>_traj <span class="ansi-blue-fg">=</span> load_frame<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    175</span>         topology <span class="ansi-blue-fg">=</span> _traj<span class="ansi-blue-fg">.</span>topology
+<span class="ansi-green-intense-fg ansi-bold">    176</span>     <span class="ansi-green-fg">elif</span> isinstance<span class="ansi-blue-fg">(</span>top<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">(</span>string_types<span class="ansi-blue-fg">,</span> os<span class="ansi-blue-fg">.</span>PathLike<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">and</span> <span class="ansi-blue-fg">(</span>ext <span class="ansi-green-fg">in</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;.prmtop&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;.parm7&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;.prm7&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/mdtraj/core/trajectory.py</span> in <span class="ansi-cyan-fg">load_frame</span><span class="ansi-blue-fg">(filename, index, top, atom_indices, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    312</span>         _assert_files_or_dirs_exist<span class="ansi-blue-fg">(</span>filename<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    313</span>
+<span class="ansi-green-fg">--&gt; 314</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> loader<span class="ansi-blue-fg">(</span>filename<span class="ansi-blue-fg">,</span> frame<span class="ansi-blue-fg">=</span>index<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    315</span>
+<span class="ansi-green-intense-fg ansi-bold">    316</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/mdtraj/formats/hdf5.py</span> in <span class="ansi-cyan-fg">load_hdf5</span><span class="ansi-blue-fg">(filename, stride, atom_indices, frame)</span>
+<span class="ansi-green-intense-fg ansi-bold">    117</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    118</span>             n_frames <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span>
+<span class="ansi-green-fg">--&gt; 119</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> f<span class="ansi-blue-fg">.</span>read_as_traj<span class="ansi-blue-fg">(</span>n_frames<span class="ansi-blue-fg">=</span>n_frames<span class="ansi-blue-fg">,</span> stride<span class="ansi-blue-fg">=</span>stride<span class="ansi-blue-fg">,</span> atom_indices<span class="ansi-blue-fg">=</span>atom_indices<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    120</span>
+<span class="ansi-green-intense-fg ansi-bold">    121</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/mdtraj/formats/hdf5.py</span> in <span class="ansi-cyan-fg">read_as_traj</span><span class="ansi-blue-fg">(self, n_frames, stride, atom_indices)</span>
+<span class="ansi-green-intense-fg ansi-bold">    516</span>
+<span class="ansi-green-intense-fg ansi-bold">    517</span>         initial <span class="ansi-blue-fg">=</span> int<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_frame_index<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 518</span><span class="ansi-red-fg">         </span>data <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>read<span class="ansi-blue-fg">(</span>n_frames<span class="ansi-blue-fg">=</span>n_frames<span class="ansi-blue-fg">,</span> stride<span class="ansi-blue-fg">=</span>stride<span class="ansi-blue-fg">,</span> atom_indices<span class="ansi-blue-fg">=</span>atom_indices<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    519</span>         <span class="ansi-green-fg">if</span> len<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    520</span>             <span class="ansi-green-fg">return</span> Trajectory<span class="ansi-blue-fg">(</span>xyz<span class="ansi-blue-fg">=</span>np<span class="ansi-blue-fg">.</span>zeros<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> topology<span class="ansi-blue-fg">.</span>n_atoms<span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> topology<span class="ansi-blue-fg">=</span>topology<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/mdtraj/formats/hdf5.py</span> in <span class="ansi-cyan-fg">read</span><span class="ansi-blue-fg">(self, n_frames, stride, atom_indices)</span>
+<span class="ansi-green-intense-fg ansi-bold">    570</span>             stride <span class="ansi-blue-fg">=</span> int<span class="ansi-blue-fg">(</span>stride<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    571</span>
+<span class="ansi-green-fg">--&gt; 572</span><span class="ansi-red-fg">         </span>total_n_frames <span class="ansi-blue-fg">=</span> len<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_handle<span class="ansi-blue-fg">.</span>root<span class="ansi-blue-fg">.</span>coordinates<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    573</span>         frame_slice <span class="ansi-blue-fg">=</span> slice<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_frame_index<span class="ansi-blue-fg">,</span> min<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_frame_index <span class="ansi-blue-fg">+</span> n_frames<span class="ansi-blue-fg">,</span> total_n_frames<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> stride<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    574</span>         <span class="ansi-green-fg">if</span> frame_slice<span class="ansi-blue-fg">.</span>stop <span class="ansi-blue-fg">-</span> frame_slice<span class="ansi-blue-fg">.</span>start <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/tables/group.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    796</span>             self<span class="ansi-blue-fg">.</span>_g_add_children_names<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    797</span>             <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__dict__<span class="ansi-blue-fg">[</span>name<span class="ansi-blue-fg">]</span>
+<span class="ansi-green-fg">--&gt; 798</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_f_get_child<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    799</span>
+<span class="ansi-green-intense-fg ansi-bold">    800</span>     <span class="ansi-green-fg">def</span> __setattr__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/tables/group.py</span> in <span class="ansi-cyan-fg">_f_get_child</span><span class="ansi-blue-fg">(self, childname)</span>
+<span class="ansi-green-intense-fg ansi-bold">    680</span>         self<span class="ansi-blue-fg">.</span>_g_check_open<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    681</span>
+<span class="ansi-green-fg">--&gt; 682</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_g_check_has_child<span class="ansi-blue-fg">(</span>childname<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    683</span>
+<span class="ansi-green-intense-fg ansi-bold">    684</span>         childpath <span class="ansi-blue-fg">=</span> join_path<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_v_pathname<span class="ansi-blue-fg">,</span> childname<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/pygro2/lib/python3.9/site-packages/tables/group.py</span> in <span class="ansi-cyan-fg">_g_check_has_child</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    373</span>         node_type <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_g_get_objinfo<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    374</span>         <span class="ansi-green-fg">if</span> node_type <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;NoSuchNode&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 375</span><span class="ansi-red-fg">             raise NoSuchNodeError(
+</span><span class="ansi-green-intense-fg ansi-bold">    376</span>                 <span class="ansi-blue-fg">&#34;group ``%s`` does not have a child named ``%s``&#34;</span>
+<span class="ansi-green-intense-fg ansi-bold">    377</span>                 % (self._v_pathname, name))
+
+<span class="ansi-red-fg">NoSuchNodeError</span>: group ``/`` does not have a child named ``coordinates``
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">traj</span> <span class="o">=</span> <span class="n">trc</span><span class="o">.</span><span class="n">view</span>
+<span class="n">traj</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">/tmp/ipykernel_3955/279071187.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>traj <span class="ansi-blue-fg">=</span> trc<span class="ansi-blue-fg">.</span>view
+<span class="ansi-green-intense-fg ansi-bold">      2</span> traj
+
+<span class="ansi-red-fg">NameError</span>: name &#39;trc&#39; is not defined
+</pre></div></div>
+</div>
+</section>
+<section id="Energy-Analysis">
+<h3>Energy Analysis<a class="headerlink" href="#Energy-Analysis" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pygromos.files.trajectory.tre</span> <span class="kn">import</span> <span class="n">Tre</span>
+
+<span class="n">tre</span> <span class="o">=</span> <span class="n">sd_gromos_system</span><span class="o">.</span><span class="n">tre</span>
+<span class="n">tre</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Trajectory:
+        Read from hdf save
+        Contains only database
+
+Type:
+        Tre
+Frames:         63       Columns:       13
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot Potential Energies</span>
+<span class="n">V_tot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">tre</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">totals</span><span class="p">)))</span>
+<span class="n">step</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tre</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">TIMESTEP_time</span><span class="p">)</span><span class="o">//</span><span class="mi">10</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tre</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">TIMESTEP_time</span><span class="p">,</span> <span class="n">V_tot</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tre</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">TIMESTEP_time</span><span class="p">[::</span><span class="n">step</span><span class="p">]),</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$t~[ps]$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$V~[kJ]$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;V total timeseries&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">out_ana</span><span class="o">+</span><span class="s2">&quot;/potential_energy_timeseries.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/Examples_developer_examples_dev_example_gromos_simulation_24_0.png" src="../../_images/Examples_developer_examples_dev_example_gromos_simulation_24_0.png" />
+</div>
+</div>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"ab205531ff25445fb463d6c199337d7b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e2d5c87dc2924692bb50316202592330": {"model_name": "ColormakerRegistryModel", "model_module": "nglview-js-widgets", "model_module_version": "3.0.1", "state": {"_dom_classes": [], "_model_module": "nglview-js-widgets", "_model_module_version": "3.0.1", "_model_name": "ColormakerRegistryModel", "_msg_ar": [], "_msg_q": [], "_ready": false, "_view_count": null, "_view_module": "nglview-js-widgets", "_view_module_version": "3.0.1", "_view_name": "ColormakerRegistryView", "layout": "IPY_MODEL_ab205531ff25445fb463d6c199337d7b"}}, "7512da14d2884974b0a0478290944fd2": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "9864824eb1644db7ac92cfb8a20be13e": {"model_name": "NGLModel", "model_module": "nglview-js-widgets", "model_module_version": "3.0.1", "state": {"_camera_orientation": [], "_camera_str": "orthographic", "_dom_classes": [], "_gui_theme": null, "_ibtn_fullscreen": "IPY_MODEL_dba2f24ace7949e4a6adcb47ea25ee96", "_igui": null, "_iplayer": "IPY_MODEL_40ed9d36273044d7bc7abecca4940e6a", "_model_module": "nglview-js-widgets", "_model_module_version": "3.0.1", "_model_name": "NGLModel", "_ngl_color_dict": {}, "_ngl_coordinate_resource": {}, "_ngl_full_stage_parameters": {}, "_ngl_msg_archive": [{"target": "Stage", "type": "call_method", "methodName": "loadFile", "reconstruc_color_scheme": false, "args": [{"type": "blob", "data": "REMARK   1 CREATED WITH MDTraj 1.9.7, 2022-04-06\nCRYST1    0.000    0.000    0.000   0.00   0.00   0.00 P 1           1 \nMODEL        0\nATOM      1  H9  6J2 A   1       3.175   3.237  -0.033  1.00  0.00      0    H  \nATOM      2  N1  6J2 A   1       2.274   2.782   0.001  1.00  0.00      0    N  \nATOM      3  H8  6J2 A   1       1.417   3.322   0.002  1.00  0.00      0    H  \nATOM      4  C9  6J2 A   1       2.181   1.431  -0.006  1.00  0.00      0    C  \nATOM      5  C8  6J2 A   1       0.938   0.743   0.007  1.00  0.00      0    C  \nATOM      6  C7  6J2 A   1      -0.318   1.485   0.014  1.00  0.00      0    C  \nATOM      7  O1  6J2 A   1      -0.367   2.733   0.020  1.00  0.00      0    O  \nATOM      8  C5  6J2 A   1      -1.593   0.713   0.009  1.00  0.00      0    C  \nATOM      9  C4  6J2 A   1      -1.598  -0.697   0.005  1.00  0.00      0    C  \nATOM     10  C3  6J2 A   1      -2.816  -1.392  -0.010  1.00  0.00      0    C  \nATOM     11  H3  6J2 A   1      -2.797  -2.477  -0.015  1.00  0.00      0    H  \nATOM     12  C2  6J2 A   1      -4.020  -0.695  -0.024  1.00  0.00      0    C  \nATOM     13  H2  6J2 A   1      -4.961  -1.237  -0.042  1.00  0.00      0    H  \nATOM     14  C1  6J2 A   1      -4.017   0.707  -0.017  1.00  0.00      0    C  \nATOM     15  H1  6J2 A   1      -4.957   1.252  -0.027  1.00  0.00      0    H  \nATOM     16  C6  6J2 A   1      -2.812   1.404   0.002  1.00  0.00      0    C  \nATOM     17  H4  6J2 A   1      -2.792   2.489   0.008  1.00  0.00      0    H  \nATOM     18  C14 6J2 A   1      -0.327  -1.447   0.013  1.00  0.00      0    C  \nATOM     19  O2  6J2 A   1      -0.341  -2.702   0.018  1.00  0.00      0    O  \nATOM     20  C13 6J2 A   1       0.928  -0.697   0.008  1.00  0.00      0    C  \nATOM     21  C12 6J2 A   1       2.139  -1.413  -0.001  1.00  0.00      0    C  \nATOM     22  O3  6J2 A   1       2.203  -2.755   0.006  1.00  0.00      0    O  \nATOM     23  H7  6J2 A   1       1.255  -3.073   0.013  1.00  0.00      0    H  \nATOM     24  C11 6J2 A   1       3.368  -0.707  -0.022  1.00  0.00      0    C  \nATOM     25  H6  6J2 A   1       4.290  -1.279  -0.035  1.00  0.00      0    H  \nATOM     26  C10 6J2 A   1       3.387   0.662  -0.024  1.00  0.00      0    C  \nATOM     27  H5  6J2 A   1       4.336   1.191  -0.038  1.00  0.00      0    H  \nTER      28      6J2 A   1\nENDMDL\nEND\n", "binary": false}], "kwargs": {"name": "nglview.adaptor.MDTrajTrajectory", "defaultRepresentation": true, "ext": "pdb"}}], "_ngl_original_stage_parameters": {}, "_ngl_repr_dict": {}, "_ngl_serialize": false, "_ngl_version": "", "_ngl_view_id": [], "_player_dict": {}, "_scene_position": {}, "_scene_rotation": {}, "_synced_model_ids": [], "_synced_repr_model_ids": [], "_view_count": null, "_view_height": "", "_view_module": "nglview-js-widgets", "_view_module_version": "3.0.1", "_view_name": "NGLView", "_view_width": "", "background": "white", "frame": 0, "gui_style": null, "layout": "IPY_MODEL_7512da14d2884974b0a0478290944fd2", "max_frame": 0, "n_components": 0, "picked": {}}}, "fb135f7f5ba84f1691b7577a283494d8": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "53c81b29ff2c470c8794083c49b9240d": {"model_name": "ImageModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ImageModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ImageView", "format": "png", "height": "", "layout": "IPY_MODEL_fb135f7f5ba84f1691b7577a283494d8", "width": "900.0"}, "buffers": [{"data": "", "encoding": "base64", "path": ["value"]}]}, "f0a5c0b8c40e46d8a5f5c808de12a24b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6e0cb89126b242b98ee7f6f42acdb97b": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "1d87b6461c174fac878c2853edde7112": {"model_name": "PlayModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "PlayModel", "_playing": false, "_repeat": false, "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "PlayView", "description": "", "description_tooltip": null, "disabled": false, "interval": 100, "layout": "IPY_MODEL_f0a5c0b8c40e46d8a5f5c808de12a24b", "max": 0, "min": 0, "show_repeat": true, "step": 1, "style": "IPY_MODEL_6e0cb89126b242b98ee7f6f42acdb97b", "value": 0}}, "f22099508aa14b07b578c7de5b3d4a89": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "42d815192b964fd1be454d3a48cfb19f": {"model_name": "SliderStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "SliderStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": "", "handle_color": null}}, "756a79c392324fcfb92495183c1c158d": {"model_name": "IntSliderModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "IntSliderModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "IntSliderView", "continuous_update": true, "description": "", "description_tooltip": null, "disabled": false, "layout": "IPY_MODEL_f22099508aa14b07b578c7de5b3d4a89", "max": 0, "min": 0, "orientation": "horizontal", "readout": true, "readout_format": "d", "step": 1, "style": "IPY_MODEL_42d815192b964fd1be454d3a48cfb19f", "value": 0}}, "8d437691eaff4ca8a48f70e5f398ff05": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "40ed9d36273044d7bc7abecca4940e6a": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_1d87b6461c174fac878c2853edde7112", "IPY_MODEL_756a79c392324fcfb92495183c1c158d"], "layout": "IPY_MODEL_8d437691eaff4ca8a48f70e5f398ff05"}}, "62a341d8981d4b149d67f10ac4b3eefc": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_1d87b6461c174fac878c2853edde7112", "value"], "target": ["IPY_MODEL_756a79c392324fcfb92495183c1c158d", "value"]}}, "fbd93a3449964c26aba8503f7192800d": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_1d87b6461c174fac878c2853edde7112", "value"], "target": ["IPY_MODEL_9864824eb1644db7ac92cfb8a20be13e", "frame"]}}, "e45178d0a32d4b7b9cba575e3ecaa7ce": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_1d87b6461c174fac878c2853edde7112", "max"], "target": ["IPY_MODEL_9864824eb1644db7ac92cfb8a20be13e", "max_frame"]}}, "89165de4a4b6459a9b49e50660e1b800": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_756a79c392324fcfb92495183c1c158d", "max"], "target": ["IPY_MODEL_9864824eb1644db7ac92cfb8a20be13e", "max_frame"]}}, "4c2d0efe4cad4a2eadf27ee5b0cf20f7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": "34px"}}, "72ae72b12ef34fadbbeaabab14786bc7": {"model_name": "ButtonStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ButtonStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "button_color": null, "font_weight": ""}}, "dba2f24ace7949e4a6adcb47ea25ee96": {"model_name": "ButtonModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ButtonModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ButtonView", "button_style": "", "description": "", "disabled": false, "icon": "compress", "layout": "IPY_MODEL_4c2d0efe4cad4a2eadf27ee5b0cf20f7", "style": "IPY_MODEL_72ae72b12ef34fadbbeaabab14786bc7", "tooltip": ""}}, "5dcb398811a04ee08793f35bcaa52e0a": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "b8f90497225244c4942fcda20288d636": {"model_name": "NGLModel", "model_module": "nglview-js-widgets", "model_module_version": "3.0.1", "state": {"_camera_orientation": [], "_camera_str": "orthographic", "_dom_classes": [], "_gui_theme": null, "_ibtn_fullscreen": "IPY_MODEL_5be2e736d1aa4f71aa391d19357dba2a", "_igui": null, "_iplayer": "IPY_MODEL_8655edbb220f45e994b2e59278f4a1a0", "_model_module": "nglview-js-widgets", "_model_module_version": "3.0.1", "_model_name": "NGLModel", "_ngl_color_dict": {}, "_ngl_coordinate_resource": {}, "_ngl_full_stage_parameters": {}, "_ngl_msg_archive": [{"target": "Stage", "type": "call_method", "methodName": "loadFile", "reconstruc_color_scheme": false, "args": [{"type": "blob", "data": "REMARK   1 CREATED WITH MDTraj 1.9.7, 2022-04-06\nCRYST1    0.000    0.000    0.000   0.00   0.00   0.00 P 1           1 \nMODEL        0\nATOM      1  H9  6J2 A   1       4.496   4.634  -1.199  1.00  0.00      0    H  \nATOM      2  N1  6J2 A   1       3.725   4.139  -0.797  1.00  0.00      0    N  \nATOM      3  H8  6J2 A   1       2.787   4.477  -0.865  1.00  0.00      0    H  \nATOM      4  C9  6J2 A   1       3.863   2.960  -0.154  1.00  0.00      0    C  \nATOM      5  C8  6J2 A   1       2.835   1.968  -0.092  1.00  0.00      0    C  \nATOM      6  C7  6J2 A   1       1.414   2.274   0.046  1.00  0.00      0    C  \nATOM      7  O1  6J2 A   1       1.055   3.440   0.319  1.00  0.00      0    O  \nATOM      8  C5  6J2 A   1       0.375   1.193   0.086  1.00  0.00      0    C  \nATOM      9  C4  6J2 A   1       0.769  -0.148   0.005  1.00  0.00      0    C  \nATOM     10  C3  6J2 A   1      -0.226  -1.132  -0.036  1.00  0.00      0    C  \nATOM     11  H3  6J2 A   1       0.058  -2.183  -0.083  1.00  0.00      0    H  \nATOM     12  C2  6J2 A   1      -1.583  -0.827  -0.044  1.00  0.00      0    C  \nATOM     13  H2  6J2 A   1      -2.331  -1.618  -0.092  1.00  0.00      0    H  \nATOM     14  C1  6J2 A   1      -1.976   0.515   0.025  1.00  0.00      0    C  \nATOM     15  H1  6J2 A   1      -3.031   0.787   0.022  1.00  0.00      0    H  \nATOM     16  C6  6J2 A   1      -0.992   1.495   0.077  1.00  0.00      0    C  \nATOM     17  H4  6J2 A   1      -1.313   2.534   0.151  1.00  0.00      0    H  \nATOM     18  C14 6J2 A   1       2.212  -0.477  -0.021  1.00  0.00      0    C  \nATOM     19  O2  6J2 A   1       2.572  -1.672  -0.095  1.00  0.00      0    O  \nATOM     20  C13 6J2 A   1       3.226   0.588  -0.046  1.00  0.00      0    C  \nATOM     21  C12 6J2 A   1       4.590   0.301   0.091  1.00  0.00      0    C  \nATOM     22  O3  6J2 A   1       5.152  -0.915   0.069  1.00  0.00      0    O  \nATOM     23  H7  6J2 A   1       4.387  -1.555  -0.005  1.00  0.00      0    H  \nATOM     24  C11 6J2 A   1       5.589   1.307   0.174  1.00  0.00      0    C  \nATOM     25  H6  6J2 A   1       6.627   0.999   0.301  1.00  0.00      0    H  \nATOM     26  C10 6J2 A   1       5.231   2.616   0.080  1.00  0.00      0    C  \nATOM     27  H5  6J2 A   1       5.959   3.380   0.355  1.00  0.00      0    H  \nTER      28      6J2 A   1\nENDMDL\nEND\n", "binary": false}], "kwargs": {"name": "nglview.adaptor.MDTrajTrajectory", "defaultRepresentation": true, "ext": "pdb"}}], "_ngl_original_stage_parameters": {}, "_ngl_repr_dict": {}, "_ngl_serialize": false, "_ngl_version": "", "_ngl_view_id": [], "_player_dict": {}, "_scene_position": {}, "_scene_rotation": {}, "_synced_model_ids": [], "_synced_repr_model_ids": [], "_view_count": null, "_view_height": "", "_view_module": "nglview-js-widgets", "_view_module_version": "3.0.1", "_view_name": "NGLView", "_view_width": "", "background": "white", "frame": 0, "gui_style": null, "layout": "IPY_MODEL_5dcb398811a04ee08793f35bcaa52e0a", "max_frame": 0, "n_components": 0, "picked": {}}}, "6fdd59cd9a1f46469ea1e04bcf7b235c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "f908d913988947bb8e9034a7ebb47e3b": {"model_name": "ImageModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ImageModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ImageView", "format": "png", "height": "", "layout": "IPY_MODEL_6fdd59cd9a1f46469ea1e04bcf7b235c", "width": "900.0"}, "buffers": [{"data": "", "encoding": "base64", "path": ["value"]}]}, "f5cee87683fd4b94a77aca482369740c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "37dd1463ed39494fa078dbc1c49f5fa9": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "1a13f147f15441d1aba6385d811ea1aa": {"model_name": "PlayModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "PlayModel", "_playing": false, "_repeat": false, "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "PlayView", "description": "", "description_tooltip": null, "disabled": false, "interval": 100, "layout": "IPY_MODEL_f5cee87683fd4b94a77aca482369740c", "max": 0, "min": 0, "show_repeat": true, "step": 1, "style": "IPY_MODEL_37dd1463ed39494fa078dbc1c49f5fa9", "value": 0}}, "a585e2e310f84b8586e0efa3f67cb9b1": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7370222b49624e49a7947836e18ebb0b": {"model_name": "SliderStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "SliderStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": "", "handle_color": null}}, "e02e07f01b014d4dad5446c7f76d8472": {"model_name": "IntSliderModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "IntSliderModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "IntSliderView", "continuous_update": true, "description": "", "description_tooltip": null, "disabled": false, "layout": "IPY_MODEL_a585e2e310f84b8586e0efa3f67cb9b1", "max": 0, "min": 0, "orientation": "horizontal", "readout": true, "readout_format": "d", "step": 1, "style": "IPY_MODEL_7370222b49624e49a7947836e18ebb0b", "value": 0}}, "326080f0a8cd40e5b7c746a3805a72c8": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "8655edbb220f45e994b2e59278f4a1a0": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_1a13f147f15441d1aba6385d811ea1aa", "IPY_MODEL_e02e07f01b014d4dad5446c7f76d8472"], "layout": "IPY_MODEL_326080f0a8cd40e5b7c746a3805a72c8"}}, "4a4d70c22deb46d0aebbbf473fc5e20f": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_1a13f147f15441d1aba6385d811ea1aa", "value"], "target": ["IPY_MODEL_e02e07f01b014d4dad5446c7f76d8472", "value"]}}, "ab20a2afa0bf4568976558de0bd858f5": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_1a13f147f15441d1aba6385d811ea1aa", "value"], "target": ["IPY_MODEL_b8f90497225244c4942fcda20288d636", "frame"]}}, "ad74dd3595b14c8db5fdbe4f5881571c": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_1a13f147f15441d1aba6385d811ea1aa", "max"], "target": ["IPY_MODEL_b8f90497225244c4942fcda20288d636", "max_frame"]}}, "e1d2b1b7cdcd482ea3f4bc2281b554ae": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_e02e07f01b014d4dad5446c7f76d8472", "max"], "target": ["IPY_MODEL_b8f90497225244c4942fcda20288d636", "max_frame"]}}, "2c2c551f4883486f85d3fd2ed23d76c8": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": "34px"}}, "822cacae79894e7198a10662326b143b": {"model_name": "ButtonStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ButtonStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "button_color": null, "font_weight": ""}}, "5be2e736d1aa4f71aa391d19357dba2a": {"model_name": "ButtonModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ButtonModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ButtonView", "button_style": "", "description": "", "disabled": false, "icon": "compress", "layout": "IPY_MODEL_2c2c551f4883486f85d3fd2ed23d76c8", "style": "IPY_MODEL_822cacae79894e7198a10662326b143b", "tooltip": ""}}, "37acf11469124b4c91d772aad931c639": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "4ed2fe6508c74d8daa94177fab0fc748": {"model_name": "NGLModel", "model_module": "nglview-js-widgets", "model_module_version": "3.0.1", "state": {"_camera_orientation": [], "_camera_str": "orthographic", "_dom_classes": [], "_gui_theme": null, "_ibtn_fullscreen": "IPY_MODEL_38264bbdda98462d9359c6b36f77f9fd", "_igui": null, "_iplayer": "IPY_MODEL_a09cca70f7764a9491d4cd1bbf7f1220", "_model_module": "nglview-js-widgets", "_model_module_version": "3.0.1", "_model_name": "NGLModel", "_ngl_color_dict": {}, "_ngl_coordinate_resource": {}, "_ngl_full_stage_parameters": {}, "_ngl_msg_archive": [{"target": "Stage", "type": "call_method", "methodName": "loadFile", "reconstruc_color_scheme": false, "args": [{"type": "blob", "data": "REMARK   1 CREATED WITH MDTraj 1.9.7, 2022-04-06\nCRYST1    0.000    0.000    0.000   0.00   0.00   0.00 P 1           1 \nMODEL        0\nATOM      1  H9  6J2 A   1       5.424   8.108  -3.314  1.00  0.00      0    H  \nATOM      2  N1  6J2 A   1       4.914   7.339  -2.930  1.00  0.00      0    N  \nATOM      3  H8  6J2 A   1       4.308   6.777  -3.493  1.00  0.00      0    H  \nATOM      4  C9  6J2 A   1       5.042   6.928  -1.650  1.00  0.00      0    C  \nATOM      5  C8  6J2 A   1       4.854   5.564  -1.264  1.00  0.00      0    C  \nATOM      6  C7  6J2 A   1       3.670   4.790  -1.624  1.00  0.00      0    C  \nATOM      7  O1  6J2 A   1       2.954   5.144  -2.585  1.00  0.00      0    O  \nATOM      8  C5  6J2 A   1       3.347   3.484  -0.959  1.00  0.00      0    C  \nATOM      9  C4  6J2 A   1       4.256   2.926  -0.052  1.00  0.00      0    C  \nATOM     10  C3  6J2 A   1       3.928   1.716   0.570  1.00  0.00      0    C  \nATOM     11  H3  6J2 A   1       4.660   1.225   1.210  1.00  0.00      0    H  \nATOM     12  C2  6J2 A   1       2.710   1.077   0.363  1.00  0.00      0    C  \nATOM     13  H2  6J2 A   1       2.488   0.129   0.854  1.00  0.00      0    H  \nATOM     14  C1  6J2 A   1       1.778   1.664  -0.501  1.00  0.00      0    C  \nATOM     15  H1  6J2 A   1       0.800   1.206  -0.656  1.00  0.00      0    H  \nATOM     16  C6  6J2 A   1       2.114   2.848  -1.145  1.00  0.00      0    C  \nATOM     17  H4  6J2 A   1       1.370   3.300  -1.802  1.00  0.00      0    H  \nATOM     18  C14 6J2 A   1       5.475   3.686   0.306  1.00  0.00      0    C  \nATOM     19  O2  6J2 A   1       6.401   3.122   0.927  1.00  0.00      0    O  \nATOM     20  C13 6J2 A   1       5.692   5.041  -0.223  1.00  0.00      0    C  \nATOM     21  C12 6J2 A   1       6.567   5.920   0.427  1.00  0.00      0    C  \nATOM     22  O3  6J2 A   1       7.490   5.581   1.337  1.00  0.00      0    O  \nATOM     23  H7  6J2 A   1       7.409   4.590   1.442  1.00  0.00      0    H  \nATOM     24  C11 6J2 A   1       6.623   7.308   0.135  1.00  0.00      0    C  \nATOM     25  H6  6J2 A   1       7.308   7.933   0.709  1.00  0.00      0    H  \nATOM     26  C10 6J2 A   1       5.863   7.807  -0.876  1.00  0.00      0    C  \nATOM     27  H5  6J2 A   1       5.748   8.888  -0.964  1.00  0.00      0    H  \nTER      28      6J2 A   1\nENDMDL\nEND\n", "binary": false}], "kwargs": {"name": "nglview.adaptor.MDTrajTrajectory", "defaultRepresentation": true, "ext": "pdb"}}], "_ngl_original_stage_parameters": {}, "_ngl_repr_dict": {}, "_ngl_serialize": false, "_ngl_version": "", "_ngl_view_id": [], "_player_dict": {}, "_scene_position": {}, "_scene_rotation": {}, "_synced_model_ids": [], "_synced_repr_model_ids": [], "_view_count": null, "_view_height": "", "_view_module": "nglview-js-widgets", "_view_module_version": "3.0.1", "_view_name": "NGLView", "_view_width": "", "background": "white", "frame": 0, "gui_style": null, "layout": "IPY_MODEL_37acf11469124b4c91d772aad931c639", "max_frame": 0, "n_components": 0, "picked": {}}}, "fb6753b69a1042ba9ef07498bbe90009": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7f0944e60443414f9af8402bebd34247": {"model_name": "ImageModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ImageModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ImageView", "format": "png", "height": "", "layout": "IPY_MODEL_fb6753b69a1042ba9ef07498bbe90009", "width": "900.0"}, "buffers": [{"data": "", "encoding": "base64", "path": ["value"]}]}, "4e40814cbfbb4771a384c0f77a75bb08": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "198f38daa2724831937ba9394f324dc8": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "03ae053c9cc5420cb522d143cc4af257": {"model_name": "PlayModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "PlayModel", "_playing": false, "_repeat": false, "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "PlayView", "description": "", "description_tooltip": null, "disabled": false, "interval": 100, "layout": "IPY_MODEL_4e40814cbfbb4771a384c0f77a75bb08", "max": 0, "min": 0, "show_repeat": true, "step": 1, "style": "IPY_MODEL_198f38daa2724831937ba9394f324dc8", "value": 0}}, "41957702f90543bb84eb7d9961380c2e": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "30933fddc4274f86981190fc49c49631": {"model_name": "SliderStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "SliderStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": "", "handle_color": null}}, "9f61bdbf237b43a0aa9b22f862be7a10": {"model_name": "IntSliderModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "IntSliderModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "IntSliderView", "continuous_update": true, "description": "", "description_tooltip": null, "disabled": false, "layout": "IPY_MODEL_41957702f90543bb84eb7d9961380c2e", "max": 0, "min": 0, "orientation": "horizontal", "readout": true, "readout_format": "d", "step": 1, "style": "IPY_MODEL_30933fddc4274f86981190fc49c49631", "value": 0}}, "79acaaa28475486da409ff07dd23e659": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "a09cca70f7764a9491d4cd1bbf7f1220": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_03ae053c9cc5420cb522d143cc4af257", "IPY_MODEL_9f61bdbf237b43a0aa9b22f862be7a10"], "layout": "IPY_MODEL_79acaaa28475486da409ff07dd23e659"}}, "6b36f8f1d3ae4ed99330ab03636f498f": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_03ae053c9cc5420cb522d143cc4af257", "value"], "target": ["IPY_MODEL_9f61bdbf237b43a0aa9b22f862be7a10", "value"]}}, "73d02a257b2049089adf6450946fbd15": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_03ae053c9cc5420cb522d143cc4af257", "value"], "target": ["IPY_MODEL_4ed2fe6508c74d8daa94177fab0fc748", "frame"]}}, "f2851f4f92ea4044bf5cd9bb038862ac": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_03ae053c9cc5420cb522d143cc4af257", "max"], "target": ["IPY_MODEL_4ed2fe6508c74d8daa94177fab0fc748", "max_frame"]}}, "18cc2ab04c1c47c3a9bab224088cf409": {"model_name": "LinkModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "LinkModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": null, "source": ["IPY_MODEL_9f61bdbf237b43a0aa9b22f862be7a10", "max"], "target": ["IPY_MODEL_4ed2fe6508c74d8daa94177fab0fc748", "max_frame"]}}, "84b5ecffb492402a99d89847685dbbf1": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": "34px"}}, "efc9593663f3417a8ead001009597bda": {"model_name": "ButtonStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ButtonStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "button_color": null, "font_weight": ""}}, "38264bbdda98462d9359c6b36f77f9fd": {"model_name": "ButtonModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ButtonModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ButtonView", "button_style": "", "description": "", "disabled": false, "icon": "compress", "layout": "IPY_MODEL_84b5ecffb492402a99d89847685dbbf1", "style": "IPY_MODEL_efc9593663f3417a8ead001009597bda", "tooltip": ""}}}, "version_major": 2, "version_minor": 0}
+</script></section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dev_example_gromos_trajectories.html" class="btn btn-neutral float-right" title="Gromos Trajectory Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dev_example_gromos_files.html" class="btn btn-neutral float-left" title="PyGromos File Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Benjamin Ries, Marc Lehner, Salome Rieder. Project structure based on the Computational Molecular Science Python Cookiecutter version 1.3
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
